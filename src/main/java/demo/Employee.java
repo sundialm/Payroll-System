@@ -1,4 +1,4 @@
-package com.example.payrollsystem;
+package demo;
 
 import javax.persistence.*;
 
@@ -7,19 +7,19 @@ import javax.persistence.*;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    private Long employeeId;
+    private String employeeName;
     private double fixedSalary;
-    private double hourRate;
     private int hoursWorked;
-    private float commRate;
+    private float comRate;
+    private double hourRate;
+
     @Enumerated(EnumType.STRING)
-    private EmployeeType emplType;
 
+    private EType employeeType;
 
-
-    public String getName() {
-        return name;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
     public double getFixedSalary() {
@@ -42,19 +42,19 @@ public class Employee {
         return hoursWorked;
     }
 
-    public float getCommRate() {
-        return commRate;
+    public float getComRate() {
+        return comRate;
     }
 
-    public void setCommRate(float commRate) {
-        this.commRate = commRate;
+    public void setComRate(float comRate) {
+        this.comRate = comRate;
     }
 
-    public EmployeeType getEmplType() {
-        return emplType;
+    public EType getEmployeeType() {
+        return employeeType;
     }
 
-    public Long getId() {
-        return id;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 }

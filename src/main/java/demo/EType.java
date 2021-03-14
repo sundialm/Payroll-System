@@ -1,6 +1,6 @@
-package com.example.payrollsystem;
+package demo;
 
-public enum EmployeeType {
+public enum EType {
     SALARIED,
     HOURLY,
     COMMISSION,

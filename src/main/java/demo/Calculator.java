@@ -1,4 +1,4 @@
-package com.example.payrollsystem;
+package demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SalaryCalculatorService implements SalaryCalculatorServiceInterface, ApplicationEventPublisherAware {
+public class Calculator implements ISalaryCalculator, ApplicationEventPublisherAware {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private ERepository employeeRepository;
     private ApplicationEventPublisher eventPublisher;
 
     @Override
@@ -19,13 +19,13 @@ public class SalaryCalculatorService implements SalaryCalculatorServiceInterface
     }
 
     @Override
-    public List<Employee> getByType(EmployeeType employeeType) {
-        return employeeRepository.findEmployeesByEmplType(employeeType);
+    public List<Employee> getByType(EType employeeType) {
+        return employeeRepository.byType(employeeType);
     }
 
     @Override
     public Employee findById(long id) {
-        return employeeRepository.findEmployeesById(id);
+        return employeeRepository.byID(id);
     }
 
     @Override
@@ -34,25 +34,27 @@ public class SalaryCalculatorService implements SalaryCalculatorServiceInterface
     }
 
     @Override
-    public void changeSalary(long id, double salary) {
-        Employee employee = findById(id);
+    public void changeSalary(int idOfEmployee, int salary) {
+        Employee employee = findById(idOfEmployee);
         employee.setFixedSalary(salary);
         save(employee);
-        this.eventPublisher.publishEvent(new SalaryChangeEvent(this, employee));
+        this.eventPublisher.publishEvent(new Change(this, employee));
     }
+
     @Override
-    public void changeHourRate(long id, double rate) {
-        Employee employee = findById(id);
+    public void changeHourRate(int idOfEmployee, double rate) {
+        Employee employee = findById(idOfEmployee);
         employee.setHourRate(rate);
         save(employee);
-        this.eventPublisher.publishEvent(new SalaryChangeEvent(this, employee));
+        this.eventPublisher.publishEvent(new Change(this, employee));
     }
+
     @Override
-    public void changeCommRate(long id, float rate) {
-        Employee employee = findById(id);
-        employee.setCommRate(rate);
+    public void changeCommRate(int idOfEmployee, int rate) {
+        Employee employee = findById(idOfEmployee);
+        employee.setComRate(rate);
         save(employee);
-        this.eventPublisher.publishEvent(new SalaryChangeEvent(this, employee));
+        this.eventPublisher.publishEvent(new Change(this, employee));
     }
 
     @Override
